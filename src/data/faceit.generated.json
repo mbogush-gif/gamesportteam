@@ -1,0 +1,71 @@
+{
+  "updatedAt": "2026-04-26T00:00:00Z",
+  "team": {
+    "totalMatches": 99,
+    "wins": 55,
+    "losses": 44,
+    "winRate": 56,
+    "longestStreak": 8,
+    "currentStreak": 0,
+    "recent": [false, false, true, true, false],
+    "kd": "1.00",
+    "kr": "1.00",
+    "hsPerMatch": 7,
+    "hsPercent": 52,
+    "entryRate": 20,
+    "entrySuccess": 52,
+    "clutch1v1": 15,
+    "clutch1v2": 9,
+    "flashSuccess": 49,
+    "utilDmgPerRound": 4.4,
+    "sniperKillRate": 10
+  },
+  "maps": [
+    {"label":"Ancient","short":"ANC","matches":29,"wins":16,"winRate":55},
+    {"label":"Nuke","short":"NUK","matches":23,"wins":12,"winRate":52},
+    {"label":"Dust2","short":"D2","matches":14,"wins":6,"winRate":43},
+    {"label":"Anubis","short":"ANU","matches":13,"wins":9,"winRate":69},
+    {"label":"Overpass","short":"OVP","matches":10,"wins":6,"winRate":60},
+    {"label":"Mirage","short":"MIR","matches":5,"wins":3,"winRate":60},
+    {"label":"Train","short":"TRN","matches":4,"wins":2,"winRate":50},
+    {"label":"Inferno","short":"INF","matches":1,"wins":1,"winRate":100}
+  ],
+  "seasons": [
+    {
+      "id": "s57",
+      "short": "S57",
+      "label": "Season 57",
+      "name": "ESEA Main B",
+      "current": true,
+      "standings": [
+        {"pos":1,"team":"GameSport","tag":"GS","logo":"https://distribution.faceit-cdn.net/images/6a3a3d37-202b-402f-9c48-8789ed9a1d13.jpg","w":2,"l":1,"rd":"+20","pts":6,"us":true},
+        {"pos":2,"team":"Sosban Fach","tag":"SF","logo":"https://distribution.faceit-cdn.net/images/e8c720ce-aa36-444a-9e76-b06d1a6f49c8.jpg","w":1,"l":0,"rd":"+2","pts":3,"us":false},
+        {"pos":3,"team":"i2K Esports","tag":"I2","logo":"https://distribution.faceit-cdn.net/images/e7cda06f-ed34-449b-b039-599ae9ed36fa.jpg","w":2,"l":3,"rd":"-26","pts":6,"us":false},
+        {"pos":4,"team":"INCEPTOR","tag":"IN","logo":"https://distribution.faceit-cdn.net/images/5231b6b6-f489-46e6-b798-77b137f112ad.jpeg","w":0,"l":1,"rd":"-10","pts":0,"us":false}
+      ],
+      "matches": [
+        {"date":"22.04.26","tour":"ESEA Main B · S57","opp":"Sosban Fach","oppShort":"SF","oppLogo":"https://distribution.faceit-cdn.net/images/e8c720ce-aa36-444a-9e76-b06d1a6f49c8.jpg","maps":[{"name":"OVP","score":"11:13","win":false}],"result":"0:1","win":false},
+        {"date":"17.04.26","tour":"ESEA Main B · S57","opp":"i2K Esports","oppShort":"I2","oppLogo":"https://distribution.faceit-cdn.net/images/e7cda06f-ed34-449b-b039-599ae9ed36fa.jpg","maps":[{"name":"MIR","score":"13:1","win":true}],"result":"1:0","win":true},
+        {"date":"10.04.26","tour":"ESEA Main B · S57","opp":"INCEPTOR","oppShort":"IN","oppLogo":"https://distribution.faceit-cdn.net/images/5231b6b6-f489-46e6-b798-77b137f112ad.jpeg","maps":[{"name":"INF","score":"13:3","win":true}],"result":"1:0","win":true}
+      ]
+    },
+    {
+      "id": "s56-po",
+      "short": "S56 PO",
+      "label": "Season 56",
+      "name": "ESEA Main C · Playoffs",
+      "current": false,
+      "standings": [
+        {"pos":1,"team":"ORGLESS","tag":"OG","logo":"https://distribution.faceit-cdn.net/images/45dd0b3e-c3dc-4ccb-b10c-9048974187fe.jpeg","w":1,"l":0,"rd":"+12","pts":3,"us":false},
+        {"pos":2,"team":"Diamant Esports","tag":"DE","logo":"https://distribution.faceit-cdn.net/images/14807a72-2ac0-46fc-b854-20bbb88e1075.jpeg","w":1,"l":0,"rd":"+11","pts":3,"us":false},
+        {"pos":3,"team":"GameSport","tag":"GS","logo":"https://distribution.faceit-cdn.net/images/6a3a3d37-202b-402f-9c48-8789ed9a1d13.jpg","w":1,"l":2,"rd":"-13","pts":3,"us":true},
+        {"pos":4,"team":"KUUSAMOgg","tag":"KU","logo":"https://distribution.faceit-cdn.net/images/56060cc6-2ed1-4b37-a2d7-eb2937c2346a.jpeg","w":0,"l":1,"rd":"-7","pts":0,"us":false}
+      ],
+      "matches": [
+        {"date":"08.03.26","tour":"ESEA Main C · S56 PO","opp":"ORGLESS","oppShort":"OG","oppLogo":"https://distribution.faceit-cdn.net/images/45dd0b3e-c3dc-4ccb-b10c-9048974187fe.jpeg","maps":[{"name":"OVP","score":"7:13","win":false},{"name":"MIR","score":"7:13","win":false}],"result":"0:2","win":false},
+        {"date":"06.03.26","tour":"ESEA Main C · S56 PO","opp":"Diamant Esports","oppShort":"DE","oppLogo":"https://distribution.faceit-cdn.net/images/14807a72-2ac0-46fc-b854-20bbb88e1075.jpeg","maps":[{"name":"DST","score":"3:13","win":false},{"name":"ANC","score":"13:5","win":true},{"name":"ANU","score":"4:13","win":false}],"result":"1:2","win":false},
+        {"date":"05.03.26","tour":"ESEA Main C · S56 PO","opp":"KUUSAMOgg","oppShort":"KU","oppLogo":"https://distribution.faceit-cdn.net/images/56060cc6-2ed1-4b37-a2d7-eb2937c2346a.jpeg","maps":[{"name":"OVP","score":"13:7","win":true},{"name":"MIR","score":"1:13","win":false},{"name":"NUK","score":"13:8","win":true}],"result":"2:1","win":true}
+      ]
+    }
+  ]
+}
