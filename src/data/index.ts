@@ -135,13 +135,12 @@ export type PlayerClip = {
   tag: string;
   vs: string;
   date: string;
+  video?: string;
 };
 
 export const PLAYER_CLIPS: Record<string, PlayerClip[]> = {
   yagagarin: [
-    { id: 'yag-01', title: 'Тайм-аут на 14:14 — IGL-разводка', map: 'Inferno', dur: '0:38', tag: 'TACTICS', vs: 'vs forZe', date: '12.03.26' },
-    { id: 'yag-02', title: 'Smoke-line на B + retake 1v2', map: 'Mirage',  dur: '0:27', tag: 'CLUTCH',  vs: 'vs Astralis', date: '02.02.26' },
-    { id: 'yag-03', title: 'Anti-eco read и тройник из CT',  map: 'Anubis',  dur: '0:19', tag: 'AIM',     vs: 'vs BetBoom', date: '21.01.26' },
+    { id: 'yag-01', title: 'Тайм-аут на 14:14 — IGL-разводка', map: 'Inferno', dur: '0:38', tag: 'TACTICS', vs: 'vs forZe', date: '12.03.26', video: 'movies/yagagarin-01.mp4' },
   ],
   ksolter: [
     { id: 'kso-01', title: '1v5 ACE на B-плантe',           map: 'Mirage',  dur: '0:42', tag: 'ACE',     vs: 'vs Astralis', date: '08.03.26' },
@@ -149,19 +148,19 @@ export const PLAYER_CLIPS: Record<string, PlayerClip[]> = {
     { id: 'kso-03', title: 'Quad на ретейке нижки',         map: 'Inferno', dur: '0:33', tag: 'MULTI',   vs: 'vs HEROIC',   date: '04.01.26' },
   ],
   rioeagle: [
-    { id: 'rio-01', title: 'Flash-assist + entry на A',      map: 'Anubis',  dur: '0:24', tag: 'ENTRY',   vs: 'vs forZe',    date: '19.03.26' },
-    { id: 'rio-02', title: 'Wallbang через короткий',        map: 'Inferno', dur: '0:14', tag: 'WALLBANG',vs: 'vs MOUZ',     date: '11.02.26' },
-    { id: 'rio-03', title: 'Пять открытых на pistol',        map: 'Mirage',  dur: '0:36', tag: 'PISTOL',  vs: 'vs Cloud9',   date: '28.01.26' },
+    { id: 'rio-01', title: 'Flash-assist + entry на A',      map: 'Anubis',  dur: '0:24', tag: 'ENTRY',   vs: 'vs forZe',    date: '19.03.26', video: 'movies/rioeagle-01.mp4' },
+    { id: 'rio-02', title: 'Wallbang через короткий',        map: 'Inferno', dur: '0:14', tag: 'WALLBANG',vs: 'vs MOUZ',     date: '11.02.26', video: 'movies/rioeagle-02.mp4' },
+    { id: 'rio-03', title: 'Пять открытых на pistol',        map: 'Mirage',  dur: '0:36', tag: 'PISTOL',  vs: 'vs Cloud9',   date: '28.01.26', video: 'movies/rioeagle-03.mp4' },
   ],
   'vova-triceps': [
-    { id: 'vov-01', title: 'No-scope triple через окно',     map: 'Mirage',  dur: '0:18', tag: 'AWP',     vs: 'vs Astralis', date: '06.03.26' },
-    { id: 'vov-02', title: 'Клатч 1v3 на B с AWP',           map: 'Inferno', dur: '0:31', tag: 'CLUTCH',  vs: 'vs FaZe',     date: '22.02.26' },
-    { id: 'vov-03', title: 'OT-раунд: hold + flick',         map: 'Nuke',    dur: '0:55', tag: 'AWP',     vs: 'vs G2',       date: '14.01.26' },
+    { id: 'vov-01', title: 'No-scope triple через окно',     map: 'Mirage',  dur: '0:18', tag: 'AWP',     vs: 'vs Astralis', date: '06.03.26', video: 'movies/vova-triceps-01.mp4' },
+    { id: 'vov-02', title: 'Клатч 1v3 на B с AWP',           map: 'Inferno', dur: '0:31', tag: 'CLUTCH',  vs: 'vs FaZe',     date: '22.02.26', video: 'movies/vova-triceps-02.mp4' },
+    { id: 'vov-03', title: 'OT-раунд: hold + flick',         map: 'Nuke',    dur: '0:55', tag: 'AWP',     vs: 'vs G2',       date: '14.01.26', video: 'movies/vova-triceps-03.mp4' },
   ],
   cartilag: [
-    { id: 'car-01', title: 'Eco-round comeback четверкой',   map: 'Mirage',  dur: '0:31', tag: 'ECO',     vs: 'vs MOUZ',     date: '05.03.26' },
-    { id: 'car-02', title: 'B-site clutch 1v3',              map: 'Anubis',  dur: '0:24', tag: 'CLUTCH',  vs: 'vs Vitality', date: '23.02.26' },
-    { id: 'car-03', title: 'Header-spam HS×4',               map: 'Inferno', dur: '0:22', tag: 'HEADSHOT',vs: 'vs forZe',    date: '08.01.26' },
+    { id: 'car-01', title: 'Eco-round comeback четверкой',   map: 'Mirage',  dur: '0:31', tag: 'ECO',     vs: 'vs MOUZ',     date: '05.03.26', video: 'movies/cartilag-01.mp4' },
+    { id: 'car-02', title: 'B-site clutch 1v3',              map: 'Anubis',  dur: '0:24', tag: 'CLUTCH',  vs: 'vs Vitality', date: '23.02.26', video: 'movies/cartilag-02.mp4' },
+    { id: 'car-03', title: 'Header-spam HS×4',               map: 'Inferno', dur: '0:22', tag: 'HEADSHOT',vs: 'vs forZe',    date: '08.01.26', video: 'movies/cartilag-03.mp4' },
   ],
 };
 

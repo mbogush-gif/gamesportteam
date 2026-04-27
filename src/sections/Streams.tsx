@@ -207,13 +207,13 @@ function LoadingOverlay({ player }: { player: Player }) {
 
 function Sunglasses() {
   return (
-    <motion.div
-      className="pmoment-shades"
-      initial={{ x: '-50%', y: -180, opacity: 0, rotate: -8 }}
-      animate={{ x: '-50%', y: 0, opacity: 1, rotate: 0 }}
-      transition={{ delay: 0.55, duration: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
-      aria-hidden="true"
-    >
+    <div className="pmoment-shades" aria-hidden="true">
+      <motion.div
+        className="pmoment-shades-inner"
+        initial={{ y: -180, opacity: 0, rotate: -8 }}
+        animate={{ y: 0, opacity: 1, rotate: 0 }}
+        transition={{ delay: 0.55, duration: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
+      >
       <svg viewBox="0 0 220 80" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="lensGrad" x1="0" y1="0" x2="0" y2="1">
@@ -240,7 +240,8 @@ function Sunglasses() {
         <ellipse cx="50" cy="30" rx="14" ry="5" fill="#fff" opacity=".08" />
         <ellipse cx="154" cy="30" rx="14" ry="5" fill="#fff" opacity=".08" />
       </svg>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -249,6 +250,21 @@ function Sunglasses() {
 function ClipsView({ player, onBack }: { player: Player; onBack: () => void }) {
   const clips = PLAYER_CLIPS[player.nick] ?? [];
   const idx = PLAYERS.indexOf(player);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const active = clips.find(c => c.id === activeId && c.video) ?? null;
+
+  useEffect(() => {
+    setActiveId(null);
+  }, [player.nick]);
+
+  useEffect(() => {
+    if (!active) return;
+    const v = videoRef.current;
+    if (v) v.play().catch(() => {});
+    stageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [active]);
 
   return (
     <motion.div
@@ -282,15 +298,69 @@ function ClipsView({ player, onBack }: { player: Player; onBack: () => void }) {
           </div>
         </div>
 
+        <AnimatePresence mode="wait">
+          {active && (
+            <motion.div
+              key={active.id}
+              ref={stageRef}
+              className="clip-stage-player"
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <video
+                ref={videoRef}
+                key={active.video}
+                className="clip-stage-video"
+                src={asset(active.video!)}
+                controls
+                playsInline
+                preload="auto"
+              />
+              <span className="hl-bracket tl" />
+              <span className="hl-bracket tr" />
+              <span className="hl-bracket bl" />
+              <span className="hl-bracket br" />
+              <button
+                className="clip-stage-close"
+                onClick={() => setActiveId(null)}
+                aria-label="Закрыть плеер"
+                type="button"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 6 L18 18 M18 6 L6 18" />
+                </svg>
+              </button>
+              <div className="clip-stage-caption">
+                <span className="badge">{active.tag}</span>
+                <span>{active.map}</span>
+                <span className="dot" />
+                <span>{active.vs}</span>
+                <span className="dot" />
+                <span>{active.date}</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div className="clip-grid">
           {clips.map((c, i) => (
             <motion.article
               key={c.id}
-              className="clip-card"
+              className={`clip-card${activeId === c.id ? ' is-active' : ''}${c.video ? '' : ' is-soon'}`}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.15 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
               data-view
+              onClick={() => c.video && setActiveId(c.id)}
+              role={c.video ? 'button' : undefined}
+              tabIndex={c.video ? 0 : -1}
+              aria-label={c.video ? `Смотреть: ${c.title}` : `${c.title} — скоро`}
+              onKeyDown={(e) => {
+                if (!c.video) return;
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveId(c.id); }
+              }}
             >
               <ClipCard clip={c} index={i} />
             </motion.article>
@@ -302,12 +372,24 @@ function ClipsView({ player, onBack }: { player: Player; onBack: () => void }) {
 }
 
 function ClipCard({ clip, index }: { clip: PlayerClip; index: number }) {
+  const hasVideo = !!clip.video;
   return (
     <>
       <div className="clip-thumb" aria-hidden="true">
         <span className="clip-noise" />
         <span className="clip-glow" />
-        <span className="clip-soon">VIDEO · SOON</span>
+        {hasVideo ? (
+          <video
+            className="clip-thumb-video"
+            src={`${asset(clip.video!)}#t=0.1`}
+            muted
+            playsInline
+            preload="metadata"
+            onLoadedMetadata={(e) => { try { e.currentTarget.currentTime = 0.1; } catch {} }}
+          />
+        ) : (
+          <span className="clip-soon">VIDEO · SOON</span>
+        )}
       </div>
 
       <div className="clip-tag">CLIP {String(index + 1).padStart(2, '0')}</div>
@@ -329,7 +411,7 @@ function ClipCard({ clip, index }: { clip: PlayerClip; index: number }) {
         <div className="clip-title">{clip.title}</div>
         <div className="clip-foot">
           <span>{clip.date}</span>
-          <span className="clip-cta">ОТКРЫТЬ <em>↗</em></span>
+          <span className="clip-cta">{hasVideo ? <>СМОТРЕТЬ <em>▶</em></> : <>СКОРО <em>·</em></>}</span>
         </div>
       </div>
 

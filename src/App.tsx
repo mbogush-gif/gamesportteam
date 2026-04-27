@@ -9,6 +9,7 @@ import { Matches } from './sections/Matches';
 import { League } from './sections/League';
 import { Series } from './sections/Series';
 import { Stats } from './sections/Stats';
+import { Highlight } from './sections/Highlight';
 import { Streams } from './sections/Streams';
 import { CtaSection } from './sections/CtaSection';
 import { Footer } from './sections/Footer';
@@ -52,6 +53,8 @@ export default function App() {
         <Matches />
         <div className="divider" />
         <League />
+        <div className="divider" />
+        <Highlight />
         <div className="divider" />
         <Stats />
         <div className="divider" />

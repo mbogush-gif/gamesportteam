@@ -92,10 +92,10 @@ export function League() {
             </div>
             <div className="nm-tour">{season.name} · {season.label} · 19:00 MSK</div>
             <div className="countdown">
-              <div><b>{cd.d}</b><span>Days</span></div>
-              <div><b>{cd.h}</b><span>Hours</span></div>
-              <div><b>{cd.m}</b><span>Min</span></div>
-              <div><b>{cd.s}</b><span>Sec</span></div>
+              <div><b>{cd.d}</b><span>Дни</span></div>
+              <div><b>{cd.h}</b><span>Часы</span></div>
+              <div><b>{cd.m}</b><span>Мин</span></div>
+              <div><b>{cd.s}</b><span>Сек</span></div>
             </div>
             <a
               className="nm-watch"

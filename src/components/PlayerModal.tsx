@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { PLAYERS, FLAGS, MATCHES, type StaffMember } from '../data';
+import { useEffect, useRef, useState } from 'react';
+import { PLAYERS, FLAGS, MATCHES, PLAYER_CLIPS, type StaffMember, type PlayerClip } from '../data';
 import { asset } from '../lib/asset';
 
 type Player = typeof PLAYERS[number];
@@ -13,13 +13,18 @@ interface Props {
   onClose: () => void;
 }
 
+type Tab = 'stats' | 'setup' | 'matches' | 'clips';
+
 export function PlayerModal({ person, onClose }: Props) {
   const isPlayer = person?.kind === 'player';
-  const [tab, setTab] = useState<'stats' | 'setup' | 'matches'>('stats');
+  const [tab, setTab] = useState<Tab>('stats');
+  const [activeClip, setActiveClip] = useState<string | null>(null);
+  const clips: PlayerClip[] = isPlayer ? (PLAYER_CLIPS[(person.data as Player).nick] ?? []) : [];
 
   useEffect(() => {
     if (!person) return;
     setTab('stats');
+    setActiveClip(null);
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
@@ -28,6 +33,10 @@ export function PlayerModal({ person, onClose }: Props) {
       document.body.style.overflow = '';
     };
   }, [person, onClose]);
+
+  useEffect(() => {
+    if (tab !== 'clips') setActiveClip(null);
+  }, [tab]);
 
   if (!person) return null;
 
@@ -74,6 +83,9 @@ export function PlayerModal({ person, onClose }: Props) {
               <button className={tab === 'setup' ? 'active' : ''} onClick={() => setTab('setup')}>Сетап</button>
               {isPlayer && (
                 <button className={tab === 'matches' ? 'active' : ''} onClick={() => setTab('matches')}>Матчи</button>
+              )}
+              {isPlayer && (
+                <button className={tab === 'clips' ? 'active' : ''} onClick={() => setTab('clips')}>Хайлайты</button>
               )}
             </div>
 
@@ -146,6 +158,12 @@ export function PlayerModal({ person, onClose }: Props) {
               </div>
             )}
 
+            {tab === 'clips' && isPlayer && (
+              <div className="tab-content active">
+                <PlayerClipsTab clips={clips} activeId={activeClip} onActive={setActiveClip} />
+              </div>
+            )}
+
             <div className="modal-socials">
               {p.socials.faceit && (
                 <a href={`https://${p.socials.faceit}`} target="_blank" rel="noopener noreferrer">
@@ -174,6 +192,119 @@ export function PlayerModal({ person, onClose }: Props) {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function PlayerClipsTab({
+  clips,
+  activeId,
+  onActive,
+}: {
+  clips: PlayerClip[];
+  activeId: string | null;
+  onActive: (id: string | null) => void;
+}) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const playable = clips.filter(c => c.video);
+  const active = playable.find(c => c.id === activeId) ?? null;
+
+  useEffect(() => {
+    if (!active) return;
+    const v = videoRef.current;
+    if (v) v.play().catch(() => {});
+    stageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [active]);
+
+  if (clips.length === 0) {
+    return (
+      <div className="pclip-empty">
+        <div className="pclip-empty-mark">SOON</div>
+        <div className="pclip-empty-text">Хайлайты этого игрока скоро появятся.</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pclip-wrap">
+      {active && (
+        <div className="pclip-stage" ref={stageRef}>
+          <video
+            ref={videoRef}
+            className="pclip-video"
+            src={asset(active.video!)}
+            controls
+            playsInline
+            preload="auto"
+          />
+          <span className="hl-bracket tl" />
+          <span className="hl-bracket tr" />
+          <span className="hl-bracket bl" />
+          <span className="hl-bracket br" />
+          <button className="pclip-close" onClick={() => onActive(null)} aria-label="Закрыть плеер">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 6 L18 18 M18 6 L6 18" />
+            </svg>
+          </button>
+          <div className="pclip-stage-meta">
+            <span className="pclip-tag">{active.tag}</span>
+            <span className="pclip-sep">·</span>
+            <span>{active.map}</span>
+            <span className="pclip-sep">·</span>
+            <span>{active.vs}</span>
+          </div>
+        </div>
+      )}
+
+      <div className="pclip-grid">
+        {clips.map(c => {
+          const has = !!c.video;
+          return (
+            <button
+              key={c.id}
+              className={`pclip-card ${activeId === c.id ? 'active' : ''} ${has ? '' : 'soon'}`}
+              onClick={() => has && onActive(c.id)}
+              type="button"
+              disabled={!has}
+              aria-label={has ? `Смотреть: ${c.title}` : `${c.title} — скоро`}
+            >
+              <div className="pclip-thumb">
+                {has ? (
+                  <>
+                    <video
+                      className="pclip-thumb-video"
+                      src={`${asset(c.video!)}#t=0.1`}
+                      muted
+                      preload="metadata"
+                      playsInline
+                      onLoadedMetadata={(e) => { try { e.currentTarget.currentTime = 0.1; } catch {} }}
+                    />
+                    <span className="pclip-play">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                    </span>
+                  </>
+                ) : (
+                  <span className="pclip-soon">SOON</span>
+                )}
+                <span className="pclip-dur">{c.dur}</span>
+              </div>
+              <div className="pclip-meta">
+                <div className="pclip-tag-row">
+                  <span className="pclip-tag">{c.tag}</span>
+                  <span className="pclip-map">{c.map}</span>
+                </div>
+                <div className="pclip-title">{c.title}</div>
+                <div className="pclip-foot">
+                  <span>{c.vs}</span>
+                  <span className="pclip-sep">·</span>
+                  <span>{c.date}</span>
+                </div>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
