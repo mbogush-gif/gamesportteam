@@ -11,6 +11,16 @@ export function League() {
   const season = useMemo(() => SEASONS.find(s => s.id === seasonId) ?? SEASONS[0], [seasonId]);
   const [cd, setCd] = useState({ d: '00', h: '00', m: '00', s: '00' });
 
+  const visibleStandings = useMemo(() => {
+    const TOP = 9;
+    const all = season.standings;
+    if (all.length <= TOP) return { rows: all, gap: false, us: null as typeof all[number] | null };
+    const top = all.slice(0, TOP);
+    const us = all.find(s => s.us) ?? null;
+    if (us && top.some(s => s.us)) return { rows: top, gap: false, us: null };
+    return { rows: top, gap: true, us };
+  }, [season]);
+
   useEffect(() => {
     const tick = () => {
       const diff = Math.max(0, NEXT_MATCH.getTime() - Date.now());
@@ -59,7 +69,7 @@ export function League() {
               <div className="cell rd-cell" style={{ textAlign: 'center' }}>RD</div>
               <div className="cell" style={{ textAlign: 'center' }}>PTS</div>
             </div>
-            {season.standings.map(s => (
+            {visibleStandings.rows.map(s => (
               <div key={`${season.id}-${s.pos}`} className={`row${s.us ? ' us' : ''}`}>
                 <div className="pos">{s.pos}</div>
                 <div className="team">
@@ -73,6 +83,31 @@ export function League() {
                 <div className="num-cell pts">{s.pts}</div>
               </div>
             ))}
+            {visibleStandings.gap && visibleStandings.us && (
+              <>
+                <div className="row gap" aria-hidden="true">
+                  <div className="pos">…</div>
+                  <div className="team">…</div>
+                  <div className="num-cell">·</div>
+                  <div className="num-cell rd-cell">·</div>
+                  <div className="num-cell pts">·</div>
+                </div>
+                <div className="row us">
+                  <div className="pos">{visibleStandings.us.pos}</div>
+                  <div className="team">
+                    <div className="lp">
+                      {visibleStandings.us.logo
+                        ? <img src={visibleStandings.us.logo} alt={visibleStandings.us.team} loading="lazy" />
+                        : visibleStandings.us.tag}
+                    </div>
+                    {visibleStandings.us.team}
+                  </div>
+                  <div className="num-cell">{visibleStandings.us.w}–{visibleStandings.us.l}</div>
+                  <div className="num-cell rd-cell">{visibleStandings.us.rd}</div>
+                  <div className="num-cell pts">{visibleStandings.us.pts}</div>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="next-match reveal">
@@ -86,8 +121,12 @@ export function League() {
               </div>
               <div className="vs">VS</div>
               <div className="nm-team">
-                <div className="lp">TBD</div>
-                <div className="nick-sm">TBD</div>
+                <div className="lp">
+                  {season.nextMatch?.oppLogo
+                    ? <img src={season.nextMatch.oppLogo} alt={season.nextMatch.opp} loading="lazy" />
+                    : season.nextMatch?.oppShort ?? 'TBD'}
+                </div>
+                <div className="nick-sm">{season.nextMatch?.opp ?? 'TBD'}</div>
               </div>
             </div>
             <div className="nm-tour">{season.name} · {season.label} · 19:00 MSK</div>

@@ -37,8 +37,8 @@ export function About() {
         <div className="about-grid">
           <div className="about-text reveal">
             <h2 className="h-display h-section">Растём <em>в&nbsp;тир-1.</em><br />Побеждаем&nbsp;<em>вместе.</em></h2>
-            <p><strong>GameSport</strong> — российская организация в&nbsp;Counter-Strike&nbsp;2, собранная вокруг идеи прозрачного и&nbsp;осмысленного развития. Состав молодой, голодный до&nbsp;побед: средний возраст 21&nbsp;год, четыре карты в&nbsp;ротации играют наизусть, пятая&nbsp;— обкатывается на&nbsp;официалках ESEA.</p>
-            <p>За&nbsp;год команда прошла путь с&nbsp;ESEA Open до&nbsp;<strong>Main B</strong>, дважды попадала в&nbsp;плей-офф LAN-кубков СНГ и&nbsp;держит на&nbsp;FACEIT 56%&nbsp;винрейта при серии до&nbsp;8&nbsp;побед подряд. Цель ближайших шести месяцев&nbsp;— Advanced и&nbsp;первые tier-1 квалификации.</p>
+            <p><strong>GameSport</strong> — российская организация в&nbsp;Counter-Strike&nbsp;2, собранная вокруг идеи прозрачного и&nbsp;осмысленного развития. Состав молодой, голодный до&nbsp;побед: средний возраст 21&nbsp;год.</p>
+            <p>За&nbsp;год команда прошла путь с&nbsp;ESEA Open до&nbsp;<strong>Main B</strong>, дважды попадала в&nbsp;плей-офф LAN-кубков СНГ и&nbsp;держит на&nbsp;FACEIT 56%&nbsp;винрейта при серии до&nbsp;8&nbsp;побед подряд. Цель ближайших шести месяцев&nbsp;— Advanced.</p>
           </div>
           <div>
             <div className="about-stats-grid reveal-stagger">

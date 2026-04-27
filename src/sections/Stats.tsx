@@ -1,4 +1,5 @@
 import { STATS, MAPS } from '../data';
+import { asset } from '../lib/asset';
 
 const METRICS: { k: string; v: string; sub: string }[] = [
   { k: 'K/D', v: STATS.kd, sub: 'Kill / Death' },
@@ -75,26 +76,32 @@ export function Stats() {
         </div>
 
         <div className="stats-block-head reveal">
-          <h3>Win rate по картам</h3>
+          <h3>Winrate по картам</h3>
           <div className="meta">{MAPS.length} карт · {MAPS.reduce((a, m) => a + m.matches, 0)} matches</div>
         </div>
 
         <div className="mappool-grid reveal-stagger">
           {sortedMaps.map((m) => {
             const wrClass = m.winRate >= 55 ? 'good' : m.winRate < 45 ? 'bad' : '';
+            const slug = m.label.toLowerCase().replace(/^de_/, '');
             return (
-              <div key={m.short} className={`map-card ${m.winRate < 45 ? 'low' : ''}`}>
+              <div
+                key={m.short}
+                className={`map-card ${m.winRate < 45 ? 'low' : ''}`}
+                style={{ ['--map-bg' as string]: `url('${asset(`/maps/${slug}.jpg`)}')` } as Record<string, string>}
+              >
+                <div className="mc-bg" aria-hidden="true" />
                 <div className="mc-head">
                   <span className="short">{m.short}</span>
                   <span>{m.matches} maps</span>
                 </div>
-                <div className="mc-name">{m.label}</div>
+                <div className="mc-name">{m.label.replace(/^de_/, '')}</div>
                 <div className="mc-bar">
                   <span style={{ width: `${m.winRate}%` }} />
                 </div>
                 <div className="mc-meta">
                   <span>{m.wins}W / {m.matches - m.wins}L</span>
-                  <span className={`wr ${wrClass}`}>{m.winRate}% WR</span>
+                  <span className={`wr ${wrClass}`}>{m.winRate}% Winrate</span>
                 </div>
               </div>
             );

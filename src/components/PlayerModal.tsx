@@ -167,7 +167,7 @@ export function PlayerModal({ person, onClose }: Props) {
             <div className="modal-socials">
               {p.socials.faceit && (
                 <a href={`https://${p.socials.faceit}`} target="_blank" rel="noopener noreferrer">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 0v24h24V0zm12.487 18.424-4.952-4.952 4.952-4.952 1.274 1.275-3.678 3.677 3.678 3.677zm4.03-1.275-3.678-3.677 3.678-3.677 1.275-1.275 4.952 4.952-4.952 4.952z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path fillRule="evenodd" d="M0 0v24h24V0H0zm12.487 18.424-4.952-4.952 4.952-4.952 1.274 1.275-3.678 3.677 3.678 3.677-1.274 1.275zm4.03-1.275-3.678-3.677 3.678-3.677 1.275-1.275 4.952 4.952-4.952 4.952-1.275-1.275z"/></svg>
                   FACEIT
                 </a>
               )}

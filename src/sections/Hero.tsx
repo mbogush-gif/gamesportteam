@@ -4,7 +4,7 @@ const LINES = [
   'CS2 · ESEA MAIN B · SEASON 57',
   'СРЕДНИЙ ELO 3572 · 5 ИГРОКОВ + ТРЕНЕР',
   'ВИНРЕЙТ 68% · 247 МАТЧЕЙ',
-  'ЦЕЛЬ — ADVANCED & TIER-1 QUALI',
+  'ЦЕЛЬ — ADVANCED',
 ];
 
 export function Hero() {

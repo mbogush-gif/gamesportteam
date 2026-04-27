@@ -54,6 +54,14 @@ export type Match = {
   maps: { name: string; score: string; win: boolean }[];
   result: string;
   win: boolean;
+  url?: string;
+};
+
+export type NextMatch = {
+  opp: string;
+  oppShort: string;
+  oppLogo?: string;
+  date: string;
 };
 
 export type Standing = {
@@ -76,6 +84,7 @@ export type Season = {
   current: boolean;
   standings: Standing[];
   matches: Match[];
+  nextMatch?: NextMatch;
 };
 
 export type TeamStats = {
