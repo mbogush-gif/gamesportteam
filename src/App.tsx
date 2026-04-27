@@ -52,15 +52,15 @@ export default function App() {
         <div className="divider" />
         <Matches />
         <div className="divider" />
+        <Highlight />
+        <div className="divider" />
         <League />
         <div className="divider" />
-        <Highlight />
+        <Streams />
         <div className="divider" />
         <Stats />
         <div className="divider" />
         <Series />
-        <div className="divider" />
-        <Streams />
         <div className="divider" />
         <CtaSection />
       </main>
