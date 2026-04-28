@@ -8,6 +8,14 @@ type Phase = 'idle' | 'loading' | 'clips';
 
 const LOADING_MS = 1700;
 
+function pluralClips(n: number) {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return 'клип';
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 'клипа';
+  return 'клипов';
+}
+
 export function Streams() {
   const [selected, setSelected] = useState<Player | null>(null);
   const [phase, setPhase] = useState<Phase>('idle');
@@ -102,7 +110,7 @@ function PlayerGrid({ onSelect }: { onSelect: (p: Player) => void }) {
   );
 }
 
-function PlayerCardInner({ player: p, index, big = false }: { player: Player; index: number; big?: boolean }) {
+function PlayerCardInner({ player: p, index, big = false, withShades = false }: { player: Player; index: number; big?: boolean; withShades?: boolean }) {
   const clips = PLAYER_CLIPS[p.nick] ?? [];
   return (
     <>
@@ -110,7 +118,8 @@ function PlayerCardInner({ player: p, index, big = false }: { player: Player; in
         <img src={asset(p.photo)} alt={p.nick} loading="lazy" />
         <div className="pmoment-num">#{String(index + 1).padStart(2, '0')}</div>
         <div className="pmoment-flag" dangerouslySetInnerHTML={{ __html: FLAGS[p.country] || '' }} />
-        <div className="pmoment-count">{clips.length} клипа</div>
+        <div className="pmoment-count">{clips.length} {pluralClips(clips.length)}</div>
+        {withShades && <Sunglasses />}
       </div>
       <div className="pmoment-body">
         <div className="pmoment-nick">{p.nick}</div>
@@ -169,8 +178,7 @@ function LoadingOverlay({ player }: { player: Player }) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       >
-        <PlayerCardInner player={player} index={idx} big />
-        <Sunglasses />
+        <PlayerCardInner player={player} index={idx} big withShades />
         <div className="pmoment-loader-overlay">
           <span className="bracket tl" /><span className="bracket tr" />
           <span className="bracket bl" /><span className="bracket br" />
@@ -210,9 +218,18 @@ function Sunglasses() {
     <div className="pmoment-shades" aria-hidden="true">
       <motion.div
         className="pmoment-shades-inner"
-        initial={{ y: -180, opacity: 0, rotate: -8 }}
-        animate={{ y: 0, opacity: 1, rotate: 0 }}
-        transition={{ delay: 0.55, duration: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
+        initial={{ scale: 2.4, opacity: 0, filter: 'blur(10px)' }}
+        animate={{
+          scale: [2.4, 0.86, 1.08, 1, 1.05, 1],
+          opacity: [0, 1, 1, 1, 1, 1],
+          filter: ['blur(10px)', 'blur(0px)', 'blur(0px)', 'blur(0px)', 'blur(0px)', 'blur(0px)'],
+        }}
+        transition={{
+          delay: 0.35,
+          duration: 1.6,
+          times: [0, 0.32, 0.5, 0.66, 0.83, 1],
+          ease: 'easeOut',
+        }}
       >
       <svg viewBox="0 0 220 80" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -333,12 +350,8 @@ function ClipsView({ player, onBack }: { player: Player; onBack: () => void }) {
                 </svg>
               </button>
               <div className="clip-stage-caption">
-                <span className="badge">{active.tag}</span>
-                <span>{active.map}</span>
-                <span className="dot" />
-                <span>{active.vs}</span>
-                <span className="dot" />
-                <span>{active.date}</span>
+                {active.tag && <span className="badge">{active.tag}</span>}
+                {active.map && <span>{active.map}</span>}
               </div>
             </motion.div>
           )}
@@ -402,15 +415,15 @@ function ClipCard({ clip, index }: { clip: PlayerClip; index: number }) {
       </div>
 
       <div className="clip-info">
-        <div className="clip-meta">
-          <span className="badge">{clip.tag}</span>
-          <span>{clip.map}</span>
-          <span className="dot" />
-          <span>{clip.vs}</span>
-        </div>
-        <div className="clip-title">{clip.title}</div>
+        {(clip.tag || clip.map) && (
+          <div className="clip-meta">
+            {clip.tag && <span className="badge">{clip.tag}</span>}
+            {clip.map && <span>{clip.map}</span>}
+          </div>
+        )}
+        {clip.title && <div className="clip-title">{clip.title}</div>}
         <div className="clip-foot">
-          <span>{clip.date}</span>
+          <span />
           <span className="clip-cta">{hasVideo ? <>СМОТРЕТЬ <em>▶</em></> : <>СКОРО <em>·</em></>}</span>
         </div>
       </div>
